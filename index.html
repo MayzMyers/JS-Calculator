@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор для студии печати</title>
+  </head>
+  <body>
+    <table class="table" border="1">
+      <tr>
+        <td>Услуга</td>
+        <td>Цена за ед.</td>
+        <td>Количество</td>
+        <td>Итого за услугу</td>
+      </tr>
+      <tr>
+        <td>Черно-белая печать (лист)</td>
+        <td id="bwPrint"></td>
+        <td><input type="number" min="0" id="bwPrintQ" /></td>
+        <td id="sum0"></td>
+      </tr>
+      <tr>
+        <td>Черно-белая копия (лист)</td>
+        <td id="bwCopy"></td>
+        <td><input type="number" min="0" id="bwCopy" /></td>
+        <td id="sum1"></td>
+      </tr>
+      <tr>
+        <td>Цветная печать (лист)</td>
+        <td id="colorPrint"></td>
+        <td><input type="number" min="0" id="colorPrint" /></td>
+        <td id="sum2"></td>
+      </tr>
+      <tr>
+        <td>Цветная копия (лист)</td>
+        <td id="colorCopy"></td>
+        <td><input type="number" min="0" id="colorCopy" /></td>
+        <td id="sum3"></td>
+      </tr>
+      <tr>
+        <td>Фото 30х40</td>
+        <td id="photo3040"></td>
+        <td><input type="number" min="0" id="photo3040" /></td>
+        <td id="sum4"></td>
+      </tr>
+      <tr>
+        <td>Фото 50х60</td>
+        <td id="photo5060"></td>
+        <td><input type="number" min="0" id="photo5060" /></td>
+        <td id="sum5"></td>
+      </tr>
+      <tr>
+        <td colspan="3">ИТОГО</td>
+        <td id="itogo"></td>
+      </tr>
+    </table>
+    <script>
+      let priceObj = {
+        printingBW: 20,
+        copyBW: 15,
+        printingColor: 50,
+        copyColor: 40,
+        photo30x40: 60,
+        photo50x60: 100,
+      };
+      document.querySelector("#bwPrint").innerHTML = priceObj.printingBW;
+      document.querySelector("#bwCopy").innerHTML = priceObj.copyBW;
+      document.querySelector("#colorPrint").innerHTML = priceObj.printingColor;
+      document.querySelector("#colorCopy").innerHTML = priceObj.copyColor;
+      document.querySelector("#photo3040").innerHTML = priceObj.photo30x40;
+      document.querySelector("#photo5060").innerHTML = priceObj.photo50x60;
+      let elemsQ = document.querySelectorAll("input[type='number']");
+      let priceValues = Object.values(priceObj);
+      let table = document.querySelector("table");
+      priceValues.forEach(function (elem, index) {
+        table.rows[index + 1].cells[1].innerHTML = elem;
+      });
+      elemsQ.forEach((elem, i) => {
+        elem.oninput = function () {
+          document.getElementById(`sum${i}`).innerHTML = priceValues[i] * elemsQ[i].value;
+          itogo();
+        };
+      });
+      function itogo() {
+        let sums = Array.from(document.querySelectorAll("[id*='sum']"));
+        summ = sums.reduce((sum, elem) => sum + +elem.innerHTML, 0);
+        document.querySelector("#itogo").innerHTML = summ;
+      }
+    </script>
+  </body>
+</html>
